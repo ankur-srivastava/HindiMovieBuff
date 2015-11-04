@@ -11,7 +11,11 @@ import java.util.ArrayList;
 public class Movie implements Parcelable{
 
     int id;
-    long movieId;
+
+    String hindiMovieId;
+    String imdbId;
+    String runtime;
+
     String title;
     String overview;
     String releaseDate;
@@ -29,15 +33,19 @@ public class Movie implements Parcelable{
     public String toString() {
         return "Movie{" +
                 "id=" + id +
-                ", movieId=" + movieId +
+                ", hindiMovieId='" + hindiMovieId + '\'' +
+                ", imdbId='" + imdbId + '\'' +
                 ", title='" + title + '\'' +
-                ", favorite='" + favorite + '\'' +
+                ", overview='" + overview + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", posterPath='" + posterPath + '\'' +
                 '}';
     }
 
     public Movie(Parcel in) {
         setId(in.readInt());
-        setMovieId(in.readLong());
+        setHindiMovieId(in.readString());
+        setImdbId(in.readString());
         setTitle(in.readString());
         setOverview(in.readString());
         setReleaseDate(in.readString());
@@ -56,7 +64,8 @@ public class Movie implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(getId());
-        dest.writeLong(getMovieId());
+        dest.writeString(getHindiMovieId());
+        dest.writeString(getImdbId());
         dest.writeString(getTitle());
         dest.writeString(getOverview());
         dest.writeString(getReleaseDate());
@@ -76,14 +85,6 @@ public class Movie implements Parcelable{
             return new Movie[size];
         }
     };
-
-    public long getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(long movieId) {
-        this.movieId = movieId;
-    }
 
     public String getTitle() {
         return title;
@@ -163,5 +164,29 @@ public class Movie implements Parcelable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getHindiMovieId() {
+        return hindiMovieId;
+    }
+
+    public void setHindiMovieId(String hindiMovieId) {
+        this.hindiMovieId = hindiMovieId;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
     }
 }
