@@ -38,7 +38,7 @@ public class FavoriteMovieAdapter extends CursorAdapter {
         ImageView imageView = (ImageView) convertView.findViewById(R.id.movieIconId);
 
         //ImageView movieIcon = (ImageView) convertView.findViewById(R.id.movieIconId);
-        String imageURL = AppConstants.MOVIE_URL+cursor.getString(2);
+        String imageURL = cursor.getString(2);
 
         try {
             if(imageURL != null && !imageURL.equals("")){

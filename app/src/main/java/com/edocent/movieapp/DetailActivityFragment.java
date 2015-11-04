@@ -99,7 +99,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
             public void onClick(View v) {
                 //Call Review Fragment
                 Log.v(TAG, "Reviews clicked ..");
-                mReviewScreen.displayReviews(movieDetailObject.getMovieId());
+                //mReviewScreen.displayReviews(movieDetailObject.getMovieId());
             }
         });
 
@@ -127,7 +127,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
                     //Check with the Database - if a row exists for this movie then update the flag
                     Log.v(TAG, "Fav Icon clicked");
                     MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-                    Log.v(TAG, "Movie id is "+movieDetailObject.getId()+" and movie id is "+movieDetailObject.getMovieId());
+                    Log.v(TAG, "Movie id is "+movieDetailObject.getId()+" and movie id is "+movieDetailObject.getHindiMovieId());
                     new MovieDBHelper.UpdateMovieAsync().execute(movieDBHelper, movieDetailObject, getActivity());
 
                     Toast.makeText(getActivity(), "Your choice has been updated !!", Toast.LENGTH_SHORT).show();
@@ -144,7 +144,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
             movieDetailOverview.setText(movieDetailObject.getOverview());
 
             //For Trailers
-            new VideoURLService().execute(movieDetailObject.getMovieId());
+            //new VideoURLService().execute(movieDetailObject.getMovieId());
 
             // For Review open a new fragment with a list to display all the reviews. Pass movie id to this fragment
             // /movie/{id}/reviews

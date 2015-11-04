@@ -117,10 +117,10 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         if(allMoviesList != null && allMoviesList.get(position) != null){
             detailMovieObj = allMoviesList.get(position);
-            if(detailMovieObj != null && detailMovieObj.getMovieId() != 0){
+            if(detailMovieObj != null && detailMovieObj.getHindiMovieId() != null && !detailMovieObj.getHindiMovieId().equals("")){
                 //get detail object from db based on movieid
                 MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-                Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), (int)detailMovieObj.getMovieId());
+                Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), detailMovieObj.getHindiMovieId());
                 if(tempMovie != null){
                     Log.v(TAG, "Got movie from DB... ");
                     detailMovieObj = tempMovie;

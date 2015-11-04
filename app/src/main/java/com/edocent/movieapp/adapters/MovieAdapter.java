@@ -55,7 +55,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
 
         //ImageView movieIcon = (ImageView) convertView.findViewById(R.id.movieIconId);
-        String imageURL = AppConstants.MOVIE_URL+movie.getPosterPath();
+        String imageURL = movie.getPosterPath();
 
         try {
             if(imageURL != null && !imageURL.equals("")){

@@ -14,22 +14,38 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Created by SRIVASTAVAA on 11/2/2015.
+ * Created by Ankur on 11/2/2015.
  */
 public class AppUtility {
 
     private static final String TAG = AppUtility.class.getSimpleName();
 
-    public static String getYearFromJSON(String date){
-        String year = "";
-        if(date != null && date.length() > 0 && date.indexOf("-") > 0) {
-            year = date.substring(0, date.indexOf("-"));
-        }else{
-            year = date;
+    public static String getReleaseDate(String date){
+        StringBuilder dateString = new StringBuilder();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date releaseDate = null;
+        try {
+            releaseDate = formatter.parse(date);
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
         }
-        return year;
+
+        if(releaseDate != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(releaseDate);
+            calendar.get(Calendar.YEAR);
+            dateString.append(Calendar.DAY_OF_MONTH).append(" ").append(Calendar.MONTH).append(" ").append(Calendar.YEAR);
+        }
+
+        Log.v(TAG, "Date is "+dateString.toString());
+        return dateString.toString();
     }
 
     /*
@@ -98,16 +114,18 @@ public class AppUtility {
         }
         Movie tempMovie = new Movie();
         try {
-            tempMovie.setTitle(tempObject.getString("title"));
-            tempMovie.setMovieId(tempObject.getLong("id"));
-            if(tempObject.getString("release_date") != null && !tempObject.getString("release_date").equals("")){
-                tempMovie.setReleaseDate(AppUtility.getYearFromJSON(tempObject.getString("release_date")));
+            tempMovie.setHindiMovieId(tempObject.getString("Id"));
+            tempMovie.setImdbId(tempObject.getString("ImdbId"));
+            tempMovie.setTitle(tempObject.getString("Title"));
+            if(tempObject.getString("ReleaseDate") != null && !tempObject.getString("ReleaseDate").equals("")){
+                tempMovie.setReleaseDate(AppUtility.getReleaseDate(tempObject.getString("ReleaseDate")));
             }
-            tempMovie.setPosterPath(tempObject.getString("poster_path"));
-            tempMovie.setOverview(tempObject.getString("overview"));
-            tempMovie.setMovieLength(tempObject.getString("overview"));
-            tempMovie.setVoteCount(tempObject.getString("vote_count"));
-            tempMovie.setVoteAverage(tempObject.getString("vote_average")+"/10");
+            tempMovie.setRuntime(tempObject.getString("Runtime"));
+            tempMovie.setPosterPath(tempObject.getString("PosterPath"));
+            tempMovie.setOverview(tempObject.getString("Description"));
+            tempMovie.setMovieLength(tempObject.getString("Runtime"));
+            tempMovie.setVoteCount(tempObject.getString("RatingCount"));
+            tempMovie.setVoteAverage(tempObject.getString("Rating"));
 
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());

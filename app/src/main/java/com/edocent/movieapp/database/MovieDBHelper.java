@@ -45,7 +45,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             //Add Movie table
             try{
                 String query = "CREATE TABLE MOVIE (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                        + "MOVIEID INTEGER,"
+                        + "HINDIMOVIEID TEXT,"
+                        + "IMDBID TEXT,"
                         +  AppConstants.MOVIE_TITLE+" TEXT,"
                         + "OVERVIEW TEXT,"
                         + "RELEASEDATE TEXT,"
@@ -109,7 +110,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
 
     public static void updateMovie(SQLiteOpenHelper helper, Movie movie){
         SQLiteDatabase db = helper.getWritableDatabase();
-        Movie movieFromDB = getMovie(db, (int)movie.getMovieId());
+        Movie movieFromDB = getMovie(db, movie.getHindiMovieId());
         Log.v(TAG, "Movie from DB is "+movieFromDB);
         movieContentValues = new ContentValues();
         if(movieFromDB != null){
@@ -128,7 +129,8 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             }
         }else{
             Log.v(TAG, "Going to add movie "+movie);
-            movieContentValues.put("MOVIEID", movie.getMovieId());
+            movieContentValues.put("HINDIMOVIEID", movie.getHindiMovieId());
+            movieContentValues.put("IMDBID", movie.getImdbId());
             movieContentValues.put(AppConstants.MOVIE_TITLE, movie.getTitle());
             movieContentValues.put("OVERVIEW", movie.getOverview());
             movieContentValues.put("RELEASEDATE", movie.getReleaseDate());
@@ -193,28 +195,29 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static Movie getMovie(SQLiteDatabase db, int movieId){
+    public static Movie getMovie(SQLiteDatabase db, String hindiMovieId){
         Movie movie = null;
         //SQLiteDatabase db = helper.getReadableDatabase();
         try {
 
             if (db != null) {
-                Cursor c = db.query("MOVIE", new String[]{"_id", "MOVIEID", AppConstants.MOVIE_TITLE, "OVERVIEW", "RELEASEDATE", "POSTERPATH", "COUNT", "LENGTH", "AVERAGE", "FAVORITE"},
-                        "MOVIEID=?",
-                        new String[]{Integer.toString(movieId)},
+                Cursor c = db.query("MOVIE", new String[]{"_id", "HINDIMOVIEID", "IMDBID", AppConstants.MOVIE_TITLE, "OVERVIEW", "RELEASEDATE", "POSTERPATH", "COUNT", "LENGTH", "AVERAGE", "FAVORITE"},
+                        "HINDIMOVIEID=?",
+                        new String[]{hindiMovieId},
                         null, null, null);
                 if (c.moveToFirst()) {
                     movie = new Movie();
                     movie.setId(c.getInt(0));
-                    movie.setMovieId(c.getInt(1));
-                    movie.setTitle(c.getString(2));
-                    movie.setOverview(c.getString(3));
-                    movie.setReleaseDate(c.getString(4));
-                    movie.setPosterPath(c.getString(5));
-                    movie.setVoteCount(c.getString(6));
-                    movie.setMovieLength(c.getString(7));
-                    movie.setVoteAverage(c.getString(8));
-                    movie.setFavorite(c.getString(9));
+                    movie.setHindiMovieId(c.getString(1));
+                    movie.setImdbId(c.getString(2));
+                    movie.setTitle(c.getString(3));
+                    movie.setOverview(c.getString(4));
+                    movie.setReleaseDate(c.getString(5));
+                    movie.setPosterPath(c.getString(6));
+                    movie.setVoteCount(c.getString(7));
+                    movie.setMovieLength(c.getString(8));
+                    movie.setVoteAverage(c.getString(9));
+                    movie.setFavorite(c.getString(10));
                 }
 
                 c.close();
@@ -288,22 +291,23 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         try {
 
             if (db != null) {
-                Cursor c = db.query("MOVIE", new String[]{"_id", "MOVIEID", AppConstants.MOVIE_TITLE, "OVERVIEW", "RELEASEDATE", "POSTERPATH", "COUNT", "LENGTH", "AVERAGE", "FAVORITE"},
+                Cursor c = db.query("MOVIE", new String[]{"_id", "HINDIMOVIEID", "IMDBID", AppConstants.MOVIE_TITLE, "OVERVIEW", "RELEASEDATE", "POSTERPATH", "COUNT", "LENGTH", "AVERAGE", "FAVORITE"},
                         "_id=?",
                         new String[]{Integer.toString(ID)},
                         null, null, null);
                 if (c.moveToFirst()) {
                     movie = new Movie();
                     movie.setId(c.getInt(0));
-                    movie.setMovieId(c.getInt(1));
-                    movie.setTitle(c.getString(2));
-                    movie.setOverview(c.getString(3));
-                    movie.setReleaseDate(c.getString(4));
-                    movie.setPosterPath(c.getString(5));
-                    movie.setVoteCount(c.getString(6));
-                    movie.setMovieLength(c.getString(7));
-                    movie.setVoteAverage(c.getString(8));
-                    movie.setFavorite(c.getString(9));
+                    movie.setHindiMovieId(c.getString(1));
+                    movie.setImdbId(c.getString(2));
+                    movie.setTitle(c.getString(3));
+                    movie.setOverview(c.getString(4));
+                    movie.setReleaseDate(c.getString(5));
+                    movie.setPosterPath(c.getString(6));
+                    movie.setVoteCount(c.getString(7));
+                    movie.setMovieLength(c.getString(8));
+                    movie.setVoteAverage(c.getString(9));
+                    movie.setFavorite(c.getString(10));
                 }
 
                 c.close();
