@@ -1,4 +1,4 @@
-package com.edocent.hindimoviebuff;
+package com.edocent.movieapp;
 
 import org.junit.Test;
 

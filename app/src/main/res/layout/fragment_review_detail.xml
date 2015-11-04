@@ -1,0 +1,38 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.edocent.movieapp.ReviewDetailFragment"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Review Detail"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"/>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reviewDetailAuthorId"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:padding="10dp"/>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reviewDetailContentId"
+        android:layout_margin="5dp"
+        android:padding="10dp"/>
+
+</LinearLayout>
+
+</ScrollView>
