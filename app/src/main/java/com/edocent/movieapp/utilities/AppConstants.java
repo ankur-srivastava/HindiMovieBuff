@@ -11,6 +11,7 @@ public class AppConstants {
     public static final String BASE_URL = "http://api.cinemalytics.com/v1/analytics/TopMovies";
     public static final String SORT_BY="sort_by";
     public static final String PAGE_NO="page";
+    public static final String RELEASED_THIS_WEEK="http://api.cinemalytics.com/v1/movie/releasedthisweek";
     //public static final String API_KEY="api_key";
     public static final String API_KEY="auth_token";
     public static final String POPULARITY = "popularity.desc";
