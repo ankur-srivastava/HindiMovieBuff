@@ -192,10 +192,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             JSONArray jsonArray = null;
             //Log.v(TAG, "Got the following result "+result);
             try {
-                jsonObject = new JSONObject(result);
-                if(jsonObject != null){
-                    jsonArray = jsonObject.getJSONArray("results");
-                }
+                jsonArray = jsonObject.getJSONArray(result);
             } catch (JSONException e) {
                 Log.e(TAG, "Error "+e.getMessage());
             }

@@ -44,8 +44,8 @@ public class AppUtility {
 
         try {
             Uri uri= Uri.parse(AppConstants.BASE_URL).buildUpon()
-                    .appendQueryParameter(AppConstants.PAGE_NO, String.valueOf(pageNo))
-                    .appendQueryParameter(AppConstants.SORT_BY, sortBy)
+                    //.appendQueryParameter(AppConstants.PAGE_NO, String.valueOf(pageNo))
+                    //.appendQueryParameter(AppConstants.SORT_BY, sortBy)
                     .appendQueryParameter(AppConstants.API_KEY, AppConstants.MOVIE_API_KEY)
                     .build();
 
