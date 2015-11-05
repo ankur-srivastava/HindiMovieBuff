@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.GridView;
@@ -31,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * A placeholder fragment containing a simple view.
+ * @author Ankur Srivastava
  */
 public class MainActivityFragment extends Fragment implements AdapterView.OnItemClickListener{
 
@@ -71,7 +70,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onResume() {
         super.onResume();
-        //Get Popular and Next Releases
         if(tempBundle == null || !tempBundle.containsKey(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY)){
             getMovieList();
         }else{
@@ -90,30 +88,14 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onPause(){
         super.onPause();
-        Log.v(TAG, "Reset Data");
         moviesListFromJSON = null;
         allMoviesList = null;
         adapter = null;
     }
 
-    public String getSortOrderPref(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortOrderPref = sharedPreferences.getString(getString(R.string.pref_rating_sort), "1");
-        return sortOrderPref;
-    }
-
     public void getMovieList(){
         MovieService service = new MovieService();
         service.execute();
-        /*
-        if(getSortOrderPref().equals("3")) {
-            setCursorAdapter();
-        }else if(getSortOrderPref().equals("2")) {
-            service.execute(AppConstants.RATING);
-        }else{
-            service.execute(AppConstants.POPULARITY);
-        }
-        */
     }
 
     public void getNextReleaseList(){
@@ -128,7 +110,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     }
 
     private void loadDetailFragment(Movie movieObject) {
-        //We have two fragments
         DetailActivityFragment detailActivityFragment = new DetailActivityFragment();
         detailActivityFragment.setMovieDetailObject(movieObject);
 
