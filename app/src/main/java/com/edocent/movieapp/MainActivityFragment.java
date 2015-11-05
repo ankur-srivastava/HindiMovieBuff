@@ -54,8 +54,8 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_main, container, false);
-        View view = inflater.inflate(R.layout.fragment_main_horizontal, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        //View view = inflater.inflate(R.layout.fragment_main_horizontal, container, false);
 
         moviesListView = (GridView)view.findViewById(R.id.moviesListViewId);
         moviesListView.setOnItemClickListener(this);
@@ -191,9 +191,9 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             /*Populate the Movie object with the data from the service call*/
             JSONObject jsonObject = null;
             JSONArray jsonArray = null;
-            //Log.v(TAG, "Got the following result "+result);
+            Log.v(TAG, "Got the following result "+result);
             try {
-                jsonArray = jsonObject.getJSONArray(result);
+                jsonArray = new JSONArray(result);
             } catch (JSONException e) {
                 Log.e(TAG, "Error "+e.getMessage());
             }

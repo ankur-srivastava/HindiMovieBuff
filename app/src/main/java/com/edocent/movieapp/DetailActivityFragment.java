@@ -134,7 +134,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
                 }
             });
 
-            String imageURL = AppConstants.MOVIE_URL+movieDetailObject.getPosterPath();
+            String imageURL = movieDetailObject.getPosterPath();
             //Log.v(TAG, "Image URL " + imageURL);
             Picasso.with(getActivity()).load(imageURL).into(movieDetailImage);
             movieDetailTitle.setText(movieDetailObject.getTitle());

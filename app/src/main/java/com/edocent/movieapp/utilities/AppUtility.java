@@ -65,7 +65,7 @@ public class AppUtility {
                     .appendQueryParameter(AppConstants.API_KEY, AppConstants.MOVIE_API_KEY)
                     .build();
 
-            //Log.v(TAG, "URI - "+uri.toString());
+            Log.v(TAG, "URI - "+uri.toString());
             URL url = new URL(uri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();

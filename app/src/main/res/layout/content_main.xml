@@ -1,22 +1,5 @@
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="horizontal">
-
 <FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sectionOneFragmentId"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
-
-</LinearLayout>
-<!--
-    <fragment
-    class="com.edocent.movieapp.MainActivityFragment"
-    android:id="@+id/sectionOneFragmentId"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     />
--->
-

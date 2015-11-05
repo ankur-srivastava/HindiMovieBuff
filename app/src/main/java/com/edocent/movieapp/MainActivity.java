@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 public class MainActivity extends Activity {
 
@@ -15,6 +16,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.content_main);
 
         loadMainFragment();
+
+        /*To add space between app icon and nav drawer icon*/
+        //ImageView view = (ImageView)findViewById(android.R.id.home);
+        //view.setPadding(400, 0, 0, 0);
+        //getActionBar().setDisplayShowTitleEnabled(false);
+        /*Ends*/
     }
 
     private void loadMainFragment() {
