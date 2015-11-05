@@ -24,6 +24,8 @@ public class Movie implements Parcelable{
     String movieLength;
     String voteAverage;
     String favorite;
+    String trailerLink;
+
     ArrayList<Trailer> trailersList;
 
     public Movie() {
@@ -54,6 +56,7 @@ public class Movie implements Parcelable{
         setMovieLength(in.readString());
         setVoteAverage(in.readString());
         setFavorite(in.readString());
+        setTrailerLink(in.readString());
     }
 
     @Override
@@ -74,6 +77,7 @@ public class Movie implements Parcelable{
         dest.writeString(getMovieLength());
         dest.writeString(getVoteAverage());
         dest.writeString(getFavorite());
+        dest.writeString(getTrailerLink());
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -188,5 +192,13 @@ public class Movie implements Parcelable{
 
     public void setRuntime(String runtime) {
         this.runtime = runtime;
+    }
+
+    public String getTrailerLink() {
+        return trailerLink;
+    }
+
+    public void setTrailerLink(String trailerLink) {
+        this.trailerLink = trailerLink;
     }
 }

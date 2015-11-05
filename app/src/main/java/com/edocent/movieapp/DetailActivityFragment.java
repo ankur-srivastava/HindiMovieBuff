@@ -53,6 +53,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
     TextView movieDetailRating;
     TextView movieDetailOverview;
     TextView viewReviewsId;
+    TextView trailerView;
     TrailerAdapter mTrailerAdapter;
     ListView trailerListView;
     ReviewScreen mReviewScreen;
@@ -88,12 +89,13 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
         movieDetailLength = (TextView) view.findViewById(R.id.movieDetailLengthId);
         movieDetailRating = (TextView) view.findViewById(R.id.movieDetailRatingId);
         movieDetailOverview = (TextView) view.findViewById(R.id.movieDetailOverviewId);
+        trailerView = (TextView) view.findViewById(R.id.trailerTitleId);
         //viewReviewsId = (TextView) view.findViewById(R.id.viewReviewsId);
-        trailerListView = (ListView) view.findViewById(R.id.trailersListId);
+        //trailerListView = (ListView) view.findViewById(R.id.trailersListId);
         favoriteIconId = (ImageView) view.findViewById(R.id.favoriteIconId);
 
 
-        trailerListView.setOnItemClickListener(this);
+        //trailerListView.setOnItemClickListener(this);
         /*
         viewReviewsId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,16 +142,41 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
             Picasso.with(getActivity()).load(imageURL).into(movieDetailImage);
             movieDetailTitle.setText(movieDetailObject.getTitle());
             movieDetailYear.setText(movieDetailObject.getReleaseDate());
-            //movieDetailLength.setText(movieDetailObject.getMovieLength());
             movieDetailRating.setText(movieDetailObject.getVoteAverage());
             movieDetailOverview.setText(movieDetailObject.getOverview());
+            movieDetailLength.setText(movieDetailObject.getRuntime());
 
-            //For Trailers
-            //new VideoURLService().execute(movieDetailObject.getMovieId());
+            if(movieDetailObject != null && movieDetailObject.getTrailerLink() != null && !movieDetailObject.getTrailerLink().equals("")){
+                trailerView.setText("Click to view Trailer");
+                trailerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String trailerURL = movieDetailObject.getTrailerLink();
+                        if(trailerURL != null){
+                            Uri uri = null;
+                            try {
+                                uri = Uri.parse(trailerURL).buildUpon().build();
+                            }catch (Exception e){
+                                Log.e(TAG, e.getMessage());
+                            }
+                            if(uri != null){
+                                Log.v(TAG, "Video URI " + uri.toString());
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                //intent.setDataAndType(uri, "video/*");
+                                intent.setData(uri);
+                                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                    startActivity(intent);
+                                }
 
-            // For Review open a new fragment with a list to display all the reviews. Pass movie id to this fragment
-            // /movie/{id}/reviews
-            // MovieReviewsFragment
+                            }else{
+                                Toast.makeText(getActivity(), "Some problem with the video", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }else{
+                trailerView.setText("Sorry, no trailers are available");
+            }
         }
 
         return view;
