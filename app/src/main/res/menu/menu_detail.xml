@@ -2,8 +2,15 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.edocent.movieapp.DetailActivity">
-    <item android:id="@+id/action_settings"
+      <!--
+      <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+      -->
+      <item android:id="@+id/favoriteMoviesId"
+            android:title="Favorites"
+            android:icon="@android:drawable/star_big_on"
+            android:orderInCategory="1"
+            app:showAsAction="always"/>
 </menu>

@@ -88,12 +88,13 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
         movieDetailLength = (TextView) view.findViewById(R.id.movieDetailLengthId);
         movieDetailRating = (TextView) view.findViewById(R.id.movieDetailRatingId);
         movieDetailOverview = (TextView) view.findViewById(R.id.movieDetailOverviewId);
-        viewReviewsId = (TextView) view.findViewById(R.id.viewReviewsId);
+        //viewReviewsId = (TextView) view.findViewById(R.id.viewReviewsId);
         trailerListView = (ListView) view.findViewById(R.id.trailersListId);
         favoriteIconId = (ImageView) view.findViewById(R.id.favoriteIconId);
 
 
         trailerListView.setOnItemClickListener(this);
+        /*
         viewReviewsId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +103,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
                 //mReviewScreen.displayReviews(movieDetailObject.getMovieId());
             }
         });
-
+        */
         if(savedInstanceState == null || !savedInstanceState.containsKey(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY)){
             if(movieDetailObject == null) {
                 if (getActivity().getIntent() != null) {

@@ -67,8 +67,42 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         moviesListView.setOnItemClickListener(this);
         moviesListView.setOnScrollListener(this);
 
-        nextReleaseView = (GridView) view.findViewById(R.id.nextReleaseListId);
-        nextReleaseView.setOnItemClickListener(this);
+        nextReleaseView = (GridView) view.findViewById(R.id.nextReleaseListViewId);
+        nextReleaseView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View largeSectionTwoFragment = view.findViewById(R.id.sectionTwoFragmentId);
+                Movie detailMovieObj = null;
+
+                if(nextReleaseListFromJSON != null && nextReleaseListFromJSON.get(position) != null){
+                    detailMovieObj = nextReleaseListFromJSON.get(position);
+                    if(detailMovieObj != null && detailMovieObj.getHindiMovieId() != null && !detailMovieObj.getHindiMovieId().equals("")){
+                        //get detail object from db based on movieid
+                        MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
+                        Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), detailMovieObj.getHindiMovieId());
+                        if(tempMovie != null){
+                            Log.v(TAG, "Got movie from DB... ");
+                            detailMovieObj = tempMovie;
+                        }
+                    }
+                }
+
+        /*If the user clicks a favorite movie*/
+                if(detailMovieObj == null){
+                    int _id = (int)id;
+                    MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
+                    detailMovieObj = MovieDBHelper.getMovieUsingId(movieDBHelper, _id);
+                }
+
+                if(largeSectionTwoFragment != null){
+                    loadDetailFragment(detailMovieObj);
+                }else{
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    intent.putExtra(AppConstants.DETAIL_MOVIE_OBJECT, detailMovieObj);
+                    startActivity(intent);
+                }
+            }
+        });
 
         tempBundle = savedInstanceState;
 
