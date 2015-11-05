@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
         //ImageView view = (ImageView)findViewById(android.R.id.home);
         //view.setPadding(400, 0, 0, 0);
         //getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setTitle("Home");
         /*Ends*/
     }
 
