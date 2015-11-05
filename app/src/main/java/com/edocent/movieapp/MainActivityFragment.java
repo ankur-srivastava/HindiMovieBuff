@@ -33,74 +33,33 @@ import java.util.ArrayList;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+public class MainActivityFragment extends Fragment implements AdapterView.OnItemClickListener{
 
+    String TAG = "MainActivityFragment";
     GridView moviesListView;
     GridView nextReleaseView;
-
-    static String TAG = "MainActivityFragment";
-
     ArrayList<Movie> moviesListFromJSON;
     ArrayList<Movie> allMoviesList;
     MovieAdapter adapter;
-
     ArrayList<Movie> nextReleaseListFromJSON;
     MovieAdapter nextReleaseAdapter;
-
-    int pageNo = 1;
-    int tempFirstVisibleItem;
-    boolean refreshEnabled = true;
-
     Bundle tempBundle;
 
-    public MainActivityFragment() {
-
-    }
+    public MainActivityFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        //View view = inflater.inflate(R.layout.fragment_main_horizontal, container, false);
 
         moviesListView = (GridView)view.findViewById(R.id.moviesListViewId);
         moviesListView.setOnItemClickListener(this);
-        moviesListView.setOnScrollListener(this);
 
         nextReleaseView = (GridView) view.findViewById(R.id.nextReleaseListViewId);
         nextReleaseView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                View largeSectionTwoFragment = view.findViewById(R.id.sectionTwoFragmentId);
-                Movie detailMovieObj = null;
-
-                if(nextReleaseListFromJSON != null && nextReleaseListFromJSON.get(position) != null){
-                    detailMovieObj = nextReleaseListFromJSON.get(position);
-                    if(detailMovieObj != null && detailMovieObj.getHindiMovieId() != null && !detailMovieObj.getHindiMovieId().equals("")){
-                        //get detail object from db based on movieid
-                        MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-                        Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), detailMovieObj.getHindiMovieId());
-                        if(tempMovie != null){
-                            Log.v(TAG, "Got movie from DB... ");
-                            detailMovieObj = tempMovie;
-                        }
-                    }
-                }
-
-        /*If the user clicks a favorite movie*/
-                if(detailMovieObj == null){
-                    int _id = (int)id;
-                    MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-                    detailMovieObj = MovieDBHelper.getMovieUsingId(movieDBHelper, _id);
-                }
-
-                if(largeSectionTwoFragment != null){
-                    loadDetailFragment(detailMovieObj);
-                }else{
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    intent.putExtra(AppConstants.DETAIL_MOVIE_OBJECT, detailMovieObj);
-                    startActivity(intent);
-                }
+                callListenerCode(nextReleaseListFromJSON, view, position, id);
             }
         });
 
@@ -114,9 +73,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         super.onResume();
         //Get Popular and Next Releases
         if(tempBundle == null || !tempBundle.containsKey(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY)){
-            //if(refreshEnabled){
-                getMovieList();
-            //}
+            getMovieList();
         }else{
             moviesListFromJSON = tempBundle.getParcelableArrayList(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY);
             if(allMoviesList == null){
@@ -137,8 +94,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         moviesListFromJSON = null;
         allMoviesList = null;
         adapter = null;
-        pageNo = 1;
-        refreshEnabled = true;
     }
 
     public String getSortOrderPref(){
@@ -149,6 +104,8 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
     public void getMovieList(){
         MovieService service = new MovieService();
+        service.execute();
+        /*
         if(getSortOrderPref().equals("3")) {
             setCursorAdapter();
         }else if(getSortOrderPref().equals("2")) {
@@ -156,45 +113,18 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         }else{
             service.execute(AppConstants.POPULARITY);
         }
+        */
     }
 
     public void getNextReleaseList(){
         NextReleaseService service = new NextReleaseService();
         service.execute();
     }
-    /*In this method position parameter denotes position of item in list and id denotes the primary key*/
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        View largeSectionTwoFragment = view.findViewById(R.id.sectionTwoFragmentId);
-        Movie detailMovieObj = null;
-
-        if(allMoviesList != null && allMoviesList.get(position) != null){
-            detailMovieObj = allMoviesList.get(position);
-            if(detailMovieObj != null && detailMovieObj.getHindiMovieId() != null && !detailMovieObj.getHindiMovieId().equals("")){
-                //get detail object from db based on movieid
-                MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-                Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), detailMovieObj.getHindiMovieId());
-                if(tempMovie != null){
-                    Log.v(TAG, "Got movie from DB... ");
-                    detailMovieObj = tempMovie;
-                }
-            }
-        }
-
-        /*If the user clicks a favorite movie*/
-        if(detailMovieObj == null){
-            int _id = (int)id;
-            MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-            detailMovieObj = MovieDBHelper.getMovieUsingId(movieDBHelper, _id);
-        }
-
-        if(largeSectionTwoFragment != null){
-            loadDetailFragment(detailMovieObj);
-        }else{
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(AppConstants.DETAIL_MOVIE_OBJECT, detailMovieObj);
-            startActivity(intent);
-        }
+        callListenerCode(allMoviesList, view, position, id);
     }
 
     private void loadDetailFragment(Movie movieObject) {
@@ -206,19 +136,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         fragmentTransaction.replace(R.id.sectionTwoFragmentId, detailActivityFragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) { }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        /*
-        if(refreshEnabled && (tempFirstVisibleItem != firstVisibleItem) && ((totalItemCount - firstVisibleItem) <= AppConstants.FETCH_LIMIT)){
-            tempFirstVisibleItem = firstVisibleItem;
-            getMovieList();
-        }
-        */
     }
 
     public class MovieService extends AsyncTask<String, Void, String>{
@@ -235,8 +152,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         @Override
         protected String doInBackground(String... params) {
-            refreshEnabled = false;
-            //Log.v(TAG, "In doInBackground with param "+params[0]);
             return AppUtility.getMovieJSONString(AppConstants.BASE_URL);
         }
 
@@ -268,7 +183,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             if(moviesListFromJSON != null) {
                 //Log.v(TAG, "moviesListFromJSON size is " + moviesListFromJSON.size());
                 setAdapter();
-                pageNo++;
                 if(allMoviesList == null){
                     allMoviesList = new ArrayList<>();
                 }
@@ -276,7 +190,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             }
             getNextReleaseList();
             dialog.dismiss();
-            refreshEnabled = true;
         }
     }
 
@@ -358,6 +271,37 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 //Log.v(TAG, "moviesListFromJSON size is " + moviesListFromJSON.size());
                 setNextReleaseAdapter();
             }
+        }
+    }
+
+    private void callListenerCode(ArrayList<Movie> movieListParam, View v, int position, long id) {
+        Movie detailMovieObj = null;
+        View largeSectionTwoFragment = v.findViewById(R.id.sectionTwoFragmentId);
+        if(movieListParam != null && movieListParam.get(position) != null){
+            detailMovieObj = movieListParam.get(position);
+            if(detailMovieObj != null && detailMovieObj.getHindiMovieId() != null
+                    && !detailMovieObj.getHindiMovieId().equals("")){
+                MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
+                Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), detailMovieObj.getHindiMovieId());
+                if(tempMovie != null){
+                    Log.v(TAG, "Got movie from DB... ");
+                    detailMovieObj = tempMovie;
+                }
+            }
+        }
+
+        if(detailMovieObj == null){
+            int _id = (int)id;
+            MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
+            detailMovieObj = MovieDBHelper.getMovieUsingId(movieDBHelper, _id);
+        }
+
+        if(largeSectionTwoFragment != null){
+            loadDetailFragment(detailMovieObj);
+        }else{
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra(AppConstants.DETAIL_MOVIE_OBJECT, detailMovieObj);
+            startActivity(intent);
         }
     }
 }
