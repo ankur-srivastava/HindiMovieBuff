@@ -4,19 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.GridView;
-
-import com.edocent.movieapp.adapters.FavoriteMovieAdapter;
 import com.edocent.movieapp.adapters.MovieAdapter;
 import com.edocent.movieapp.database.MovieDBHelper;
 import com.edocent.movieapp.model.Movie;
@@ -77,7 +72,9 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             if(allMoviesList == null){
                 allMoviesList = new ArrayList<>();
             }
-            allMoviesList.addAll(moviesListFromJSON);
+            if(moviesListFromJSON != null){
+                allMoviesList.addAll(moviesListFromJSON);
+            }
             setAdapter();
 
             nextReleaseListFromJSON = tempBundle.getParcelableArrayList(AppConstants.NEXT_MOVIE_LIST_FROM_BUNDLE_KEY);
@@ -138,8 +135,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(String result){
-            /*Populate the Movie object with the data from the service call*/
-            JSONObject jsonObject = null;
             JSONArray jsonArray = null;
             Log.v(TAG, "Got the following result "+result);
             try {
@@ -148,7 +143,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 Log.e(TAG, "Error "+e.getMessage());
             }
             if(jsonArray != null){
-                moviesListFromJSON = new ArrayList<Movie>();
+                moviesListFromJSON = new ArrayList<>();
                 for(int i=0;i<jsonArray.length();i++){
                     try {
                         JSONObject tempObject = jsonArray.getJSONObject(i);
@@ -191,20 +186,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         }
     }
 
-    public void setCursorAdapter(){
-        Log.v(TAG, "Trying to start cursor !!");
-        ProgressDialog tempDialog =
-                new ProgressDialog(getActivity());
-        tempDialog.setMessage("Getting your Favorites !!");
-        tempDialog.show();
-
-        MovieDBHelper helper = new MovieDBHelper(getActivity());
-        CursorAdapter ca = new FavoriteMovieAdapter(getActivity(), MovieDBHelper.getFavoriteMoviesCursor(helper), 0);
-        moviesListView.setAdapter(ca);
-
-        tempDialog.dismiss();
-    }
-
     @Override
     public void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
@@ -225,8 +206,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         @Override
         protected void onPostExecute(String result){
-            /*Populate the Movie object with the data from the service call*/
-            JSONObject jsonObject = null;
             JSONArray jsonArray = null;
             Log.v(TAG, "Got the following result "+result);
             try {
@@ -235,7 +214,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 Log.e(TAG, "Error "+e.getMessage());
             }
             if(jsonArray != null){
-                nextReleaseListFromJSON = new ArrayList<Movie>();
+                nextReleaseListFromJSON = new ArrayList<>();
                 for(int i=0;i<jsonArray.length();i++){
                     try {
                         JSONObject tempObject = jsonArray.getJSONObject(i);
