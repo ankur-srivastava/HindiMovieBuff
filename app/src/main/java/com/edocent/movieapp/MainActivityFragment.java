@@ -82,7 +82,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         if(tempBundle == null || !tempBundle.containsKey(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY)){
             //if(refreshEnabled){
                 getMovieList();
-                getNextReleaseList();
             //}
         }else{
             moviesListFromJSON = tempBundle.getParcelableArrayList(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY);
@@ -241,6 +240,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 }
                 allMoviesList.addAll(moviesListFromJSON);
             }
+            getNextReleaseList();
             dialog.dismiss();
             refreshEnabled = true;
         }
