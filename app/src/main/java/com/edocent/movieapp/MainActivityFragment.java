@@ -36,10 +36,16 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
 
     GridView moviesListView;
+    GridView nextReleaseView;
+
     static String TAG = "MainActivityFragment";
+
     ArrayList<Movie> moviesListFromJSON;
     ArrayList<Movie> allMoviesList;
     MovieAdapter adapter;
+
+    ArrayList<Movie> nextReleaseListFromJSON;
+    MovieAdapter nextReleaseAdapter;
 
     int pageNo = 1;
     int tempFirstVisibleItem;
@@ -61,6 +67,9 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         moviesListView.setOnItemClickListener(this);
         moviesListView.setOnScrollListener(this);
 
+        nextReleaseView = (GridView) view.findViewById(R.id.nextReleaseListId);
+        nextReleaseView.setOnItemClickListener(this);
+
         tempBundle = savedInstanceState;
 
         return view;
@@ -69,10 +78,12 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onResume() {
         super.onResume();
+        //Get Popular and Next Releases
         if(tempBundle == null || !tempBundle.containsKey(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY)){
-            if(refreshEnabled){
+            //if(refreshEnabled){
                 getMovieList();
-            }
+                getNextReleaseList();
+            //}
         }else{
             moviesListFromJSON = tempBundle.getParcelableArrayList(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY);
             if(allMoviesList == null){
@@ -80,6 +91,9 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             }
             allMoviesList.addAll(moviesListFromJSON);
             setAdapter();
+
+            nextReleaseListFromJSON = tempBundle.getParcelableArrayList(AppConstants.NEXT_MOVIE_LIST_FROM_BUNDLE_KEY);
+            setNextReleaseAdapter();
         }
     }
 
@@ -109,6 +123,11 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         }else{
             service.execute(AppConstants.POPULARITY);
         }
+    }
+
+    public void getNextReleaseList(){
+        NextReleaseService service = new NextReleaseService();
+        service.execute();
     }
     /*In this method position parameter denotes position of item in list and id denotes the primary key*/
     @Override
@@ -161,10 +180,12 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        /*
         if(refreshEnabled && (tempFirstVisibleItem != firstVisibleItem) && ((totalItemCount - firstVisibleItem) <= AppConstants.FETCH_LIMIT)){
             tempFirstVisibleItem = firstVisibleItem;
             getMovieList();
         }
+        */
     }
 
     public class MovieService extends AsyncTask<String, Void, String>{
@@ -183,7 +204,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         protected String doInBackground(String... params) {
             refreshEnabled = false;
             //Log.v(TAG, "In doInBackground with param "+params[0]);
-            return AppUtility.getMovieJSONString(params[0], pageNo);
+            return AppUtility.getMovieJSONString(AppConstants.BASE_URL);
         }
 
         @Override
@@ -235,6 +256,13 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         }
     }
 
+    public void setNextReleaseAdapter(){
+        if(nextReleaseAdapter == null) {
+            nextReleaseAdapter = new MovieAdapter(getActivity(), R.layout.list_item_movie, nextReleaseListFromJSON);
+            nextReleaseView.setAdapter(nextReleaseAdapter);
+        }
+    }
+
     public void setCursorAdapter(){
         Log.v(TAG, "Trying to start cursor !!");
         ProgressDialog tempDialog =
@@ -254,6 +282,48 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         super.onSaveInstanceState(bundle);
         if(moviesListFromJSON != null){
             bundle.putParcelableArrayList(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY, moviesListFromJSON);
+        }
+        if(nextReleaseListFromJSON != null){
+            bundle.putParcelableArrayList(AppConstants.NEXT_MOVIE_LIST_FROM_BUNDLE_KEY, nextReleaseListFromJSON);
+        }
+    }
+
+    public class NextReleaseService extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            return AppUtility.getMovieJSONString(AppConstants.NEXT_RELEASE_URL);
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            /*Populate the Movie object with the data from the service call*/
+            JSONObject jsonObject = null;
+            JSONArray jsonArray = null;
+            Log.v(TAG, "Got the following result "+result);
+            try {
+                jsonArray = new JSONArray(result);
+            } catch (JSONException e) {
+                Log.e(TAG, "Error "+e.getMessage());
+            }
+            if(jsonArray != null){
+                nextReleaseListFromJSON = new ArrayList<Movie>();
+                for(int i=0;i<jsonArray.length();i++){
+                    try {
+                        JSONObject tempObject = jsonArray.getJSONObject(i);
+                        if(tempObject != null){
+                            nextReleaseListFromJSON.add(AppUtility.mapMovieData(tempObject));
+                        }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.getMessage());
+                    }
+
+                }
+            }
+            if(nextReleaseListFromJSON != null) {
+                //Log.v(TAG, "moviesListFromJSON size is " + moviesListFromJSON.size());
+                setNextReleaseAdapter();
+            }
         }
     }
 }

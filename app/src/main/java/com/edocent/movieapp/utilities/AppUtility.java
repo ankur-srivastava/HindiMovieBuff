@@ -58,15 +58,13 @@ public class AppUtility {
     This code has been borrowed from https://gist.github.com/udacityandroid/d6a7bb21904046a91695
     Used in MainActivityFragment
     * */
-    public static String getMovieJSONString(String sortBy, int pageNo){
+    public static String getMovieJSONString(String inputUrl){
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String movieJsonStr = null;
 
         try {
-            Uri uri= Uri.parse(AppConstants.BASE_URL).buildUpon()
-                    //.appendQueryParameter(AppConstants.PAGE_NO, String.valueOf(pageNo))
-                    //.appendQueryParameter(AppConstants.SORT_BY, sortBy)
+            Uri uri= Uri.parse(inputUrl).buildUpon()
                     .appendQueryParameter(AppConstants.API_KEY, AppConstants.MOVIE_API_KEY)
                     .build();
 

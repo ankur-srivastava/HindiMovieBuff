@@ -12,6 +12,7 @@ public class AppConstants {
     public static final String SORT_BY="sort_by";
     public static final String PAGE_NO="page";
     public static final String RELEASED_THIS_WEEK="http://api.cinemalytics.com/v1/movie/releasedthisweek";
+    public static final String NEXT_RELEASE_URL="http://api.cinemalytics.com/v1/movie/nextchange";
     //public static final String API_KEY="api_key";
     public static final String API_KEY="auth_token";
     public static final String POPULARITY = "popularity.desc";
@@ -21,6 +22,7 @@ public class AppConstants {
     public static final String MOVIE_DETAIL_URL="http://image.tmdb.org/t/p/w780";
     public static final String DETAIL_MOVIE_OBJECT="movie_detail";
     public static final String MOVIE_LIST_FROM_BUNDLE_KEY="movie_list_from_bundle_key";
+    public static final String NEXT_MOVIE_LIST_FROM_BUNDLE_KEY="next_movie_list_from_bundle_key";
     public static final String MOVIE_DTL_FROM_BUNDLE_KEY="movie_list_from_bundle_key";
     public static final int FETCH_LIMIT=12;
     public static final String TRAILERS_BASE_URL = "http://api.themoviedb.org/3/movie";
