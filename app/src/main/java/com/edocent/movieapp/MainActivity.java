@@ -55,6 +55,11 @@ public class MainActivity extends Activity {
             startActivity(new Intent(this, SettingsActivity.class));
         }
         */
+        if(id == R.id.favoriteMoviesId){
+            Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

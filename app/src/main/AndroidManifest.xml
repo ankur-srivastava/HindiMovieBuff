@@ -39,6 +39,9 @@
                 android:value="com.edocent.movieapp.MainActivity" />
         </activity>
         <activity android:name=".FavoritesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edocent.movieapp.MainActivity" />
         </activity>
     </application>
 
