@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HindiMovieBuff</string>
+    <string name="app_name">HMB</string>
     <string name="action_settings">Settings</string>
     <string name="refresh">Refresh</string>
     <string name="main_activity">Movies</string>

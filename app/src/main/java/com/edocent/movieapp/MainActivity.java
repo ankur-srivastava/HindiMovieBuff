@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.edocent.movieapp.utilities.AppUtility;
+
 public class MainActivity extends Activity {
 
     @Override
@@ -16,13 +18,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.content_main);
 
         loadMainFragment();
-
-        /*To add space between app icon and nav drawer icon*/
-        //ImageView view = (ImageView)findViewById(android.R.id.home);
-        //view.setPadding(400, 0, 0, 0);
-        //getActionBar().setDisplayShowTitleEnabled(false);
-        getActionBar().setTitle("Home");
-        /*Ends*/
+        AppUtility.setupBannerIcon(getActionBar(), (ImageView)findViewById(android.R.id.home));
     }
 
     private void loadMainFragment() {

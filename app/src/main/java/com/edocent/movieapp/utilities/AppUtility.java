@@ -1,7 +1,9 @@
 package com.edocent.movieapp.utilities;
 
+import android.app.ActionBar;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.edocent.movieapp.model.Movie;
 
@@ -68,7 +70,7 @@ public class AppUtility {
                     .appendQueryParameter(AppConstants.API_KEY, AppConstants.MOVIE_API_KEY)
                     .build();
 
-            Log.v(TAG, "URI - "+uri.toString());
+            //Log.v(TAG, "URI - "+uri.toString());
             URL url = new URL(uri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -124,6 +126,7 @@ public class AppUtility {
                 tempMovie.setReleaseDate(AppUtility.getReleaseDate(tempObject.getString("ReleaseDate")));
             }
             tempMovie.setRuntime(tempObject.getString("Runtime"));
+            tempMovie.setTrailerLink(tempObject.getString("TrailerLink"));
             tempMovie.setPosterPath(tempObject.getString("PosterPath"));
             tempMovie.setOverview(tempObject.getString("Description"));
             tempMovie.setMovieLength(tempObject.getString("Runtime"));
@@ -134,5 +137,10 @@ public class AppUtility {
             Log.e(TAG, e.getMessage());
         }
         return tempMovie;
+    }
+
+    public static void setupBannerIcon(ActionBar actionBar, ImageView view){
+        view.setPadding(400, 0, 0, 0);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 }

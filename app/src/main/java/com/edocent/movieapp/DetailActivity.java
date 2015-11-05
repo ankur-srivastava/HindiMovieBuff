@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.edocent.movieapp.model.Review;
+import com.edocent.movieapp.utilities.AppUtility;
 
 public class DetailActivity extends Activity implements DetailActivityFragment.ReviewScreen, MovieReviewsFragment.ReviewDetail{
 
@@ -20,6 +22,7 @@ public class DetailActivity extends Activity implements DetailActivityFragment.R
         setContentView(R.layout.content_detail);
 
         setupDetailFragment();
+        AppUtility.setupBannerIcon(getActionBar(), (ImageView) findViewById(android.R.id.home));
     }
 
     @Override

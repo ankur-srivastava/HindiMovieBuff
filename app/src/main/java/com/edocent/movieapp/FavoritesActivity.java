@@ -5,6 +5,9 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.edocent.movieapp.utilities.AppUtility;
 
 public class FavoritesActivity extends Activity {
 
@@ -15,6 +18,7 @@ public class FavoritesActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);
         loadFavoritesFragment();
+        AppUtility.setupBannerIcon(getActionBar(), (ImageView) findViewById(android.R.id.home));
     }
 
     @Override

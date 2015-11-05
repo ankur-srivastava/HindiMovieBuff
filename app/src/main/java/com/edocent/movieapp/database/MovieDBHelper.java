@@ -228,43 +228,6 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         return movie;
     }
 
-    public static ArrayList<Movie> getFavoriteMovies(SQLiteOpenHelper helper){
-        ArrayList<Movie> movieList = null;
-        SQLiteDatabase db = helper.getReadableDatabase();
-        try {
-            if (db != null) {
-                Cursor c = db.query("MOVIE",
-                            new String[]{"_id", AppConstants.MOVIE_TITLE, "OVERVIEW", "RELEASEDATE", "POSTERPATH", "COUNT", "LENGTH",
-                                    "AVERAGE", "FAVORITE"},
-                        null,null,null, null, null);
-
-                movieList = new ArrayList<>();
-
-                if(c.getCount() > 0){
-                    while(c.moveToNext()){
-                        Movie movie = new Movie();
-                        movie.setId(c.getInt(0));
-                        movie.setTitle(c.getString(1));
-                        movie.setOverview(c.getString(2));
-                        movie.setReleaseDate(c.getString(3));
-                        movie.setPosterPath(c.getString(4));
-                        movie.setVoteCount(c.getString(5));
-                        movie.setMovieLength(c.getString(6));
-                        movie.setVoteAverage(c.getString(7));
-                        movie.setFavorite(c.getString(8));
-                        movieList.add(movie);
-                    }
-                }
-
-                c.close();
-            }
-        }catch(SQLiteException ex){
-            Log.e(TAG, ex.getMessage());
-        }finally{
-            db.close();
-        }
-        return movieList;
-    }
 
     public static Cursor getFavoriteMoviesCursor(SQLiteOpenHelper helper){
         SQLiteDatabase db = helper.getReadableDatabase();

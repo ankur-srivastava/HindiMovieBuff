@@ -136,7 +136,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         @Override
         protected void onPostExecute(String result){
             JSONArray jsonArray = null;
-            Log.v(TAG, "Got the following result "+result);
+            //Log.v(TAG, "Got the following result "+result);
             try {
                 jsonArray = new JSONArray(result);
             } catch (JSONException e) {
@@ -207,7 +207,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         @Override
         protected void onPostExecute(String result){
             JSONArray jsonArray = null;
-            Log.v(TAG, "Got the following result "+result);
+            //Log.v(TAG, "Got the following result "+result);
             try {
                 jsonArray = new JSONArray(result);
             } catch (JSONException e) {
@@ -244,7 +244,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
                 Movie tempMovie = MovieDBHelper.getMovie(movieDBHelper.getReadableDatabase(), detailMovieObj.getHindiMovieId());
                 if(tempMovie != null){
-                    Log.v(TAG, "Got movie from DB... ");
+                    //Log.v(TAG, "Got movie from DB... ");
                     detailMovieObj = tempMovie;
                 }
             }
