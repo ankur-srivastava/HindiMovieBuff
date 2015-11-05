@@ -28,9 +28,12 @@ public class AppUtility {
 
     public static String getReleaseDate(String date){
         StringBuilder dateString = new StringBuilder();
+        String pattern = "MM/dd/yyyy";
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         Date releaseDate = null;
+
         try {
             releaseDate = formatter.parse(date);
         } catch (ParseException e) {
@@ -39,12 +42,14 @@ public class AppUtility {
 
         if(releaseDate != null){
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(releaseDate);
-            calendar.get(Calendar.YEAR);
-            dateString.append(Calendar.DAY_OF_MONTH).append(" ").append(Calendar.MONTH).append(" ").append(Calendar.YEAR);
+            try {
+                calendar.setTime(releaseDate);
+                dateString.append(monthNames[calendar.get(Calendar.MONTH)]).append(" ").append(calendar.get(Calendar.YEAR));
+            }catch(Exception e){
+                Log.e(TAG, e.getMessage());
+            }
         }
 
-        Log.v(TAG, "Date is "+dateString.toString());
         return dateString.toString();
     }
 
