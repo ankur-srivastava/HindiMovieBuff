@@ -177,14 +177,14 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         }
 
         public void cancelTask(final ProgressDialog pd) {
-            //Define a thread to cancel Progress Bar after 10sec
+            //Define a thread to cancel Progress Bar after Xsec
             Runnable progressThread = new Runnable() {
                 @Override
                 public void run() {
-                    pd.dismiss();
                     try {
                         Log.v(TAG, "Task Status is "+getStatus());
                         if(getStatus() != Status.FINISHED){
+                            pd.dismiss();
                             if (getActivity() != null) {
                                 Toast.makeText(getActivity(), "Weak Internet Connection", Toast.LENGTH_SHORT).show();
                             }
@@ -198,15 +198,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
             Handler progressHandler = new Handler();
             progressHandler.postDelayed(progressThread, AppConstants.PROGRESS_DIALOG_TIME);
-            /*
-            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-
-                }
-            });
-            */
-            //Ends
         }
     }
 
@@ -281,7 +272,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         }
 
         void cancelTask() {
-            //Define a thread to cancel Progress Bar after 10sec
             Runnable progressThread = new Runnable() {
                 @Override
                 public void run() {
