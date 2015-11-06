@@ -9,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-
 import com.edocent.movieapp.R;
 import com.edocent.movieapp.model.Movie;
-import com.edocent.movieapp.utilities.AppConstants;
-//import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,9 +33,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         this.mMovieList = movieList;
     }
 
-
-    //Sizes - "w92", "w154", "w185", "w342", "w500", "w780", or "original"
-    //Sample image URL - http://image.tmdb.org/t/p/w75/5JU9ytZJyR3zmClGmVm9q4Geqbd.jpg
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup){
         ViewHolderItem viewHolderItem;
@@ -59,7 +54,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         try {
             if(imageURL != null && !imageURL.equals("")){
-                //Picasso.with(getContext()).load(Uri.parse(imageURL)).into(viewHolderItem.movieIconItem);
+                Picasso.with(getContext()).load(Uri.parse(imageURL)).into(viewHolderItem.movieIconItem);
             }
         }catch (Exception ex){
             Log.e(TAG, "Problem with the URL "+ex.getMessage());
