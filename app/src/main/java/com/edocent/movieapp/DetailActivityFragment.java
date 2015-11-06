@@ -201,8 +201,8 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
         if(tempTrailer != null){
             Log.v(TAG, "Following trailer was invoked " + tempTrailer.getTrailerName());
             //Invoke youtube
-            String youtubeURL = AppConstants.MOVIE_YOUTUBE_URL+"/"+tempTrailer.getTrailerKey();
-
+            //String youtubeURL = AppConstants.MOVIE_YOUTUBE_URL+"/"+tempTrailer.getTrailerKey();
+            String youtubeURL = tempTrailer.getTrailerKey();
             Uri uri = null;
             try {
                 uri = Uri.parse(youtubeURL).buildUpon().build();
