@@ -176,7 +176,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             }
         }
 
-        public void cancelTask(final ProgressDialog pd) {
+        void cancelTask(final ProgressDialog pd) {
             //Define a thread to cancel Progress Bar after Xsec
             Runnable progressThread = new Runnable() {
                 @Override
