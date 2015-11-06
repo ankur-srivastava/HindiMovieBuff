@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.edocent.movieapp.model.Review;
 import com.edocent.movieapp.utilities.AppUtility;
 
-public class DetailActivity extends Activity implements DetailActivityFragment.ReviewScreen, MovieReviewsFragment.ReviewDetail{
+public class DetailActivity extends Activity implements MovieReviewsFragment.ReviewDetail{
 
     private static final String TAG = "DetailActivity";
 
@@ -34,25 +34,13 @@ public class DetailActivity extends Activity implements DetailActivityFragment.R
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        /*
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+
+        if(id == R.id.favoriteMoviesId){
+            Intent intent = new Intent(DetailActivity.this, FavoritesActivity.class);
+            startActivity(intent);
         }
-        */
+
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void displayReviews(long movieId) {
-        Log.v(TAG, "Reviews clicked in Activity .. "+movieId);
-        MovieReviewsFragment movieReviewsFragment = new MovieReviewsFragment();
-        movieReviewsFragment.setMovieId(movieId);
-
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.movieDetailFragmentId, movieReviewsFragment);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 
     public void setupDetailFragment(){
