@@ -183,10 +183,13 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 public void run() {
                     pd.dismiss();
                     try {
-                        if (getActivity() != null) {
-                            Toast.makeText(getActivity(), "Weak Internet Connection", Toast.LENGTH_SHORT).show();
+                        Log.v(TAG, "Task Status is "+getStatus());
+                        if(getStatus() != Status.FINISHED){
+                            if (getActivity() != null) {
+                                Toast.makeText(getActivity(), "Weak Internet Connection", Toast.LENGTH_SHORT).show();
+                            }
+                            cancel(true);
                         }
-                        cancel(true);
                     }catch (Exception e){
                         Log.e(TAG, "Check error "+e.getMessage());
                     }
@@ -238,6 +241,12 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     public class NextReleaseService extends AsyncTask<String, Void, String>{
 
         @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            cancelTask();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
             return AppUtility.getMovieJSONString(AppConstants.NEXT_RELEASE_URL);
         }
@@ -269,6 +278,26 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 //Log.v(TAG, "moviesListFromJSON size is " + moviesListFromJSON.size());
                 setNextReleaseAdapter();
             }
+        }
+
+        void cancelTask() {
+            //Define a thread to cancel Progress Bar after 10sec
+            Runnable progressThread = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Log.v(TAG, "Task Status is " + getStatus());
+                        if(getStatus() != Status.FINISHED){
+                            cancel(true);
+                        }
+                    }catch (Exception e){
+                        Log.e(TAG, "Check error "+e.getMessage());
+                    }
+                }
+            };
+
+            Handler progressHandler = new Handler();
+            progressHandler.postDelayed(progressThread, AppConstants.PROGRESS_DIALOG_TIME);
         }
     }
 
