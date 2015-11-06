@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.edocent.movieapp.R;
 import com.edocent.movieapp.model.Movie;
 import com.edocent.movieapp.utilities.AppConstants;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         try {
             if(imageURL != null && !imageURL.equals("")){
-                Picasso.with(getContext()).load(Uri.parse(imageURL)).into(viewHolderItem.movieIconItem);
+                //Picasso.with(getContext()).load(Uri.parse(imageURL)).into(viewHolderItem.movieIconItem);
             }
         }catch (Exception ex){
             Log.e(TAG, "Problem with the URL "+ex.getMessage());
