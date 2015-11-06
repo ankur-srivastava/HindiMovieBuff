@@ -1,9 +1,15 @@
 package com.edocent.movieapp.utilities;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.edocent.movieapp.model.Movie;
 
@@ -95,7 +101,7 @@ public class AppUtility {
             }
             movieJsonStr = buffer.toString();
         } catch (IOException e) {
-            Log.e(TAG, "Error ", e);
+            Log.e(TAG, e.getMessage());
             return null;
         } finally{
             if (urlConnection != null) {
@@ -142,5 +148,37 @@ public class AppUtility {
     public static void setupBannerIcon(ActionBar actionBar, ImageView view){
         view.setPadding(400, 0, 0, 0);
         actionBar.setDisplayShowTitleEnabled(false);
+    }
+
+    public static boolean isOnline(ConnectivityManager connMgr) {
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    public static void closeDialog(final ProgressDialog pd) {
+        //Define a thread to cancel Progress Bar after 10sec
+        Runnable progressThread = new Runnable() {
+            @Override
+            public void run() {
+                Log.v(TAG, "In Runnable ...");
+                pd.dismiss();
+            }
+        };
+
+        Handler progressHandler = new Handler();
+        progressHandler.postDelayed(progressThread, AppConstants.PROGRESS_DIALOG_TIME);
+            /*
+            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+
+                }
+            });
+            */
+        //Ends
+    }
+
+    public static void showToast(Context context, String message){
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

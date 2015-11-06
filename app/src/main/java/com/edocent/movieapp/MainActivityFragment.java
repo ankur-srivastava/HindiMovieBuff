@@ -6,12 +6,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import com.edocent.movieapp.adapters.MovieAdapter;
 import com.edocent.movieapp.database.MovieDBHelper;
 import com.edocent.movieapp.model.Movie;
@@ -126,6 +129,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             super.onPreExecute();
             dialog.setMessage("We are almost done !!");
             dialog.show();
+            cancelTask(dialog);
         }
 
         @Override
@@ -137,35 +141,69 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         protected void onPostExecute(String result){
             JSONArray jsonArray = null;
             //Log.v(TAG, "Got the following result "+result);
-            try {
-                jsonArray = new JSONArray(result);
-            } catch (JSONException e) {
-                Log.e(TAG, "Error "+e.getMessage());
-            }
-            if(jsonArray != null){
-                moviesListFromJSON = new ArrayList<>();
-                for(int i=0;i<jsonArray.length();i++){
-                    try {
-                        JSONObject tempObject = jsonArray.getJSONObject(i);
-                        if(tempObject != null){
-                            moviesListFromJSON.add(AppUtility.mapMovieData(tempObject));
+            if(isCancelled()){
+                Log.v(TAG, "Task got cancelled");
+            }else{
+                try {
+                    jsonArray = new JSONArray(result);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error "+e.getMessage());
+                }
+                if(jsonArray != null){
+                    moviesListFromJSON = new ArrayList<>();
+                    for(int i=0;i<jsonArray.length();i++){
+                        try {
+                            JSONObject tempObject = jsonArray.getJSONObject(i);
+                            if(tempObject != null){
+                                moviesListFromJSON.add(AppUtility.mapMovieData(tempObject));
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.getMessage());
                         }
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Error " + e.getMessage());
+
                     }
+                }
+                if(moviesListFromJSON != null) {
+                    //Log.v(TAG, "moviesListFromJSON size is " + moviesListFromJSON.size());
+                    setAdapter();
+                    if(allMoviesList == null){
+                        allMoviesList = new ArrayList<>();
+                    }
+                    allMoviesList.addAll(moviesListFromJSON);
+                }
+                getNextReleaseList();
+                dialog.dismiss();
+            }
+        }
+
+        public void cancelTask(final ProgressDialog pd) {
+            //Define a thread to cancel Progress Bar after 10sec
+            Runnable progressThread = new Runnable() {
+                @Override
+                public void run() {
+                    pd.dismiss();
+                    try {
+                        if (getActivity() != null) {
+                            Toast.makeText(getActivity(), "Weak Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
+                        cancel(true);
+                    }catch (Exception e){
+                        Log.e(TAG, "Check error "+e.getMessage());
+                    }
+                }
+            };
+
+            Handler progressHandler = new Handler();
+            progressHandler.postDelayed(progressThread, AppConstants.PROGRESS_DIALOG_TIME);
+            /*
+            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
 
                 }
-            }
-            if(moviesListFromJSON != null) {
-                //Log.v(TAG, "moviesListFromJSON size is " + moviesListFromJSON.size());
-                setAdapter();
-                if(allMoviesList == null){
-                    allMoviesList = new ArrayList<>();
-                }
-                allMoviesList.addAll(moviesListFromJSON);
-            }
-            getNextReleaseList();
-            dialog.dismiss();
+            });
+            */
+            //Ends
         }
     }
 

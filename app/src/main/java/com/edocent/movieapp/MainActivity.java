@@ -2,7 +2,9 @@ package com.edocent.movieapp;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,13 +14,29 @@ import com.edocent.movieapp.utilities.AppUtility;
 
 public class MainActivity extends Activity {
 
+    ConnectivityManager connMgr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
 
-        loadMainFragment();
+        connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        boolean isOnline = AppUtility.isOnline(connMgr);
+
+        if(isOnline) {
+            loadMainFragment();
+        }else{
+            loadNoInternetFragment();
+        }
         AppUtility.setupBannerIcon(getActionBar(), (ImageView)findViewById(android.R.id.home));
+    }
+
+    private void loadNoInternetFragment() {
+        NoInternetFragment noInternetFragment = new NoInternetFragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.sectionOneFragmentId, noInternetFragment);
+        fragmentTransaction.commit();
     }
 
     private void loadMainFragment() {
