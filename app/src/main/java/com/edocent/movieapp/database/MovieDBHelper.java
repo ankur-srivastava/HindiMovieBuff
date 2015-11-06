@@ -39,9 +39,9 @@ public class MovieDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(TAG, "on upgrade called");
+        //Log.v(TAG, "on upgrade called");
         if(oldVersion < AppConstants.DB_VERSION){
-            Log.v(TAG, "Going to add new table Movie");
+            //Log.v(TAG, "Going to add new table Movie");
             //Add Movie table
             try{
                 String query = "CREATE TABLE MOVIE (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -56,7 +56,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                         + "AVERAGE TEXT,"
                         + "FAVORITE TEXT"
                         + ")";
-                Log.v(TAG, "Query "+query);
+                //Log.v(TAG, "Query "+query);
                 db.execSQL(query);
 
             }catch (Exception e){
@@ -89,7 +89,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         protected void onPostExecute(SimpleCursorAdapter adapter){
             //Setup the cursor adapter using this list
             moviesListView.setAdapter(adapter);
-            Log.v(TAG, "Adapter set");
+            //Log.v(TAG, "Adapter set");
         }
     }
 
@@ -101,7 +101,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             Movie movie = (Movie) params[1];
             context = (Context) params[2];
             if(tempDBHelper != null && movie != null){
-                Log.v(TAG, "Going to update movie "+movie);
+                //Log.v(TAG, "Going to update movie "+movie);
                 updateMovie(tempDBHelper, movie);
             }
             return null;
@@ -111,7 +111,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     public static void updateMovie(SQLiteOpenHelper helper, Movie movie){
         SQLiteDatabase db = helper.getWritableDatabase();
         Movie movieFromDB = getMovie(db, movie.getHindiMovieId());
-        Log.v(TAG, "Movie from DB is "+movieFromDB);
+        //Log.v(TAG, "Movie from DB is "+movieFromDB);
         movieContentValues = new ContentValues();
         if(movieFromDB != null){
             /*
@@ -128,7 +128,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                 deleteMovieRecord(db, movieFromDB.getId());
             }
         }else{
-            Log.v(TAG, "Going to add movie "+movie);
+            //Log.v(TAG, "Going to add movie "+movie);
             movieContentValues.put("HINDIMOVIEID", movie.getHindiMovieId());
             movieContentValues.put("IMDBID", movie.getImdbId());
             movieContentValues.put(AppConstants.MOVIE_TITLE, movie.getTitle());
@@ -144,10 +144,10 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     }
 
     public static boolean updateMovieRecord(SQLiteDatabase db, ContentValues cv, int id){
-        Log.v(TAG, "Ready to update");
+        //Log.v(TAG, "Ready to update");
         try{
             db.update("MOVIE", cv, "_id = ?", new String[]{Integer.toString(id)});
-            Log.v(TAG, "Movie Updated");
+            //Log.v(TAG, "Movie Updated");
             /*
             if(context != null){
                 Toast.makeText(context, "Your selection has been updated", Toast.LENGTH_SHORT).show();
@@ -161,10 +161,10 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     }
 
     public static boolean deleteMovieRecord(SQLiteDatabase db, int id){
-        Log.v(TAG, "Ready to delete");
+        //Log.v(TAG, "Ready to delete");
         try{
             int numRowsDeleted = db.delete("MOVIE", "_id = ?", new String[]{Integer.toString(id)});
-            Log.v(TAG, "Movie Deleted "+numRowsDeleted);
+            //Log.v(TAG, "Movie Deleted "+numRowsDeleted);
             /*
             if(context != null){
                 Toast.makeText(context, "Your selection has been updated", Toast.LENGTH_SHORT).show();
@@ -178,11 +178,11 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     }
 
     public static boolean addMovie(SQLiteDatabase db, ContentValues cv){
-        Log.v(TAG, "Ready to Add");
+        //Log.v(TAG, "Ready to Add");
         long _id;
         try{
             _id = db.insert("MOVIE", null, cv);
-            Log.v(TAG, "Movie Added with ID "+_id);
+            //Log.v(TAG, "Movie Added with ID "+_id);
             /*
             if(context != null){
                 Toast.makeText(context, "Movie added to Favorites", Toast.LENGTH_SHORT).show();
