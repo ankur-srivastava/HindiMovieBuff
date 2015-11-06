@@ -182,7 +182,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 @Override
                 public void run() {
                     try {
-                        Log.v(TAG, "Task Status is "+getStatus());
+                        //Log.v(TAG, "Task Status is "+getStatus());
                         if(getStatus() != Status.FINISHED){
                             pd.dismiss();
                             if (getActivity() != null) {
@@ -276,7 +276,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 @Override
                 public void run() {
                     try {
-                        Log.v(TAG, "Task Status is " + getStatus());
+                        //Log.v(TAG, "Task Status is " + getStatus());
                         if(getStatus() != Status.FINISHED){
                             cancel(true);
                         }

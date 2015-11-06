@@ -57,6 +57,7 @@ public class Movie implements Parcelable{
         setVoteAverage(in.readString());
         setFavorite(in.readString());
         setTrailerLink(in.readString());
+        setRuntime(in.readString());
     }
 
     @Override
@@ -78,6 +79,7 @@ public class Movie implements Parcelable{
         dest.writeString(getVoteAverage());
         dest.writeString(getFavorite());
         dest.writeString(getTrailerLink());
+        dest.writeString(getRuntime());
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

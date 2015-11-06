@@ -144,7 +144,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
             movieDetailYear.setText(movieDetailObject.getReleaseDate());
             movieDetailRating.setText(movieDetailObject.getVoteAverage());
             movieDetailOverview.setText(movieDetailObject.getOverview());
-            movieDetailLength.setText(movieDetailObject.getRuntime());
+            movieDetailLength.setText(movieDetailObject.getRuntime()+" minutes");
 
             if(movieDetailObject != null && movieDetailObject.getTrailerLink() != null && !movieDetailObject.getTrailerLink().equals("")){
                 trailerView.setText("Click to view Trailer");
