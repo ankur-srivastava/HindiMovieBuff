@@ -90,22 +90,8 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
         movieDetailRating = (TextView) view.findViewById(R.id.movieDetailRatingId);
         movieDetailOverview = (TextView) view.findViewById(R.id.movieDetailOverviewId);
         trailerView = (TextView) view.findViewById(R.id.trailerTitleId);
-        //viewReviewsId = (TextView) view.findViewById(R.id.viewReviewsId);
-        //trailerListView = (ListView) view.findViewById(R.id.trailersListId);
         favoriteIconId = (ImageView) view.findViewById(R.id.favoriteIconId);
 
-
-        //trailerListView.setOnItemClickListener(this);
-        /*
-        viewReviewsId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call Review Fragment
-                Log.v(TAG, "Reviews clicked ..");
-                //mReviewScreen.displayReviews(movieDetailObject.getMovieId());
-            }
-        });
-        */
         if(savedInstanceState == null || !savedInstanceState.containsKey(AppConstants.MOVIE_LIST_FROM_BUNDLE_KEY)){
             if(movieDetailObject == null) {
                 if (getActivity().getIntent() != null) {
@@ -127,10 +113,7 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
             favoriteIconId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Check with the Database - if a row exists for this movie then update the flag
-                    Log.v(TAG, "Fav Icon clicked");
                     MovieDBHelper movieDBHelper = new MovieDBHelper(getActivity());
-                    Log.v(TAG, "Movie id is "+movieDetailObject.getId()+" and movie id is "+movieDetailObject.getHindiMovieId());
                     new MovieDBHelper.UpdateMovieAsync().execute(movieDBHelper, movieDetailObject, getActivity());
 
                     Toast.makeText(getActivity(), "Your choice has been updated !!", Toast.LENGTH_SHORT).show();
@@ -138,8 +121,8 @@ public class DetailActivityFragment extends Fragment implements AdapterView.OnIt
             });
 
             String imageURL = movieDetailObject.getPosterPath();
-            //Log.v(TAG, "Image URL " + imageURL);
             Picasso.with(getActivity()).load(imageURL).into(movieDetailImage);
+
             movieDetailTitle.setText(movieDetailObject.getTitle());
             movieDetailYear.setText(movieDetailObject.getReleaseDate());
             movieDetailRating.setText(movieDetailObject.getVoteAverage());
