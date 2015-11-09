@@ -82,7 +82,10 @@ public class MainActivity extends Activity {
 
     @Override
     public void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        Log.v(TAG, "In onNewIntent and action "+intent.getAction());
         if(Intent.ACTION_SEARCH.equals(intent.getAction())){
+            Log.v(TAG, "Ready");
             String query = intent.getStringExtra(SearchManager.QUERY);
             Log.v(TAG, "Received a query "+query);
             loadMainFragment(query);
