@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edocent.movieapp.adapters.MovieAdapter;
@@ -24,6 +25,7 @@ import com.edocent.movieapp.utilities.AppUtility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     ArrayList<Movie> nextReleaseListFromJSON;
     MovieAdapter nextReleaseAdapter;
     Bundle tempBundle;
+    TextView headerTextView;
 
     public MainActivityFragment() { }
 
@@ -50,6 +53,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        headerTextView = (TextView) view.findViewById(R.id.headerTextId);
         moviesListView = (GridView)view.findViewById(R.id.moviesListViewId);
         moviesListView.setOnItemClickListener(this);
 
@@ -62,6 +66,12 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         });
 
         tempBundle = savedInstanceState;
+
+        if(query != null && !query.equals("")){
+            headerTextView.setText("Search Results");
+        }else{
+            headerTextView.setText("Popular Bollywood Movies");
+        }
 
         return view;
     }

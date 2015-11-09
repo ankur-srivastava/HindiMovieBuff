@@ -7,8 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/headerTextId"
         android:gravity="center"
-        android:text="Popular Bollywood Movies"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20dp"
         android:textStyle="bold"
