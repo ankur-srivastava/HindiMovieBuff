@@ -51,7 +51,8 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.movie_search, menu);
         return true;
     }
 
@@ -62,6 +63,11 @@ public class MainActivity extends Activity {
         if(id == R.id.favoriteMoviesId){
             Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
             startActivity(intent);
+        }else if(id == R.id.menu_item_search){
+            onSearchRequested();
+            return true;
+        }else if(id == R.id.menu_item_clear){
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
