@@ -2,10 +2,12 @@ package com.edocent.movieapp;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.edocent.movieapp.utilities.AppUtility;
 
 public class MainActivity extends Activity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     ConnectivityManager connMgr;
 
     @Override
@@ -25,7 +28,7 @@ public class MainActivity extends Activity {
         boolean isOnline = AppUtility.isOnline(connMgr);
 
         if(isOnline) {
-            loadMainFragment();
+            loadMainFragment(null);
         }else{
             loadNoInternetFragment();
         }
@@ -39,8 +42,12 @@ public class MainActivity extends Activity {
         fragmentTransaction.commit();
     }
 
-    private void loadMainFragment() {
+    private void loadMainFragment(String query) {
         MainActivityFragment mainActivityFragment = new MainActivityFragment();
+
+        if(query != null){
+            mainActivityFragment.setQuery(query);
+        }
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.sectionOneFragmentId, mainActivityFragment);
@@ -71,5 +78,14 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent){
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.v(TAG, "Received a query "+query);
+            loadMainFragment(query);
+        }
     }
 }

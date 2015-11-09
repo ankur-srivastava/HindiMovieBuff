@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     String TAG = "MainActivityFragment";
+    String query;
     GridView moviesListView;
     GridView nextReleaseView;
     ArrayList<Movie> moviesListFromJSON;
@@ -134,7 +135,10 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         @Override
         protected String doInBackground(String... params) {
-            return AppUtility.getMovieJSONString(AppConstants.BASE_URL);
+            if(query != null && !query.equals("")){
+                return AppUtility.getMovieJSONString(AppConstants.MOVIE_BY_TITLE, query);
+            }
+            return AppUtility.getMovieJSONString(AppConstants.BASE_URL, null);
         }
 
         @Override
@@ -239,7 +243,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         @Override
         protected String doInBackground(String... params) {
-            return AppUtility.getMovieJSONString(AppConstants.NEXT_RELEASE_URL);
+            return AppUtility.getMovieJSONString(AppConstants.NEXT_RELEASE_URL, null);
         }
 
         @Override
@@ -320,5 +324,9 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             intent.putExtra(AppConstants.DETAIL_MOVIE_OBJECT, detailMovieObj);
             startActivity(intent);
         }
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 }

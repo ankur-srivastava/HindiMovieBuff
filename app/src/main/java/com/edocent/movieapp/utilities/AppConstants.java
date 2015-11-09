@@ -7,7 +7,9 @@ public class AppConstants {
     public static final String MOVIE_API_KEY = "6CC981035004FFA3DFD8D2555C348502";
     public static final String BASE_URL = "http://api.cinemalytics.com/v1/analytics/TopMovies";
     public static final String NEXT_RELEASE_URL="http://api.cinemalytics.com/v1/movie/nextchange";
+    public static final String MOVIE_BY_TITLE = "http://api.cinemalytics.com/v1/movie/title";
     public static final String API_KEY="auth_token";
+    public static final String MOVIE_BY_TITLE_KEY="value";
     public static final String DETAIL_MOVIE_OBJECT="movie_detail";
     public static final String MOVIE_LIST_FROM_BUNDLE_KEY="movie_list_from_bundle_key";
     public static final String NEXT_MOVIE_LIST_FROM_BUNDLE_KEY="next_movie_list_from_bundle_key";

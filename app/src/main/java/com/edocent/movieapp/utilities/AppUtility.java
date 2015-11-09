@@ -66,13 +66,14 @@ public class AppUtility {
     This code has been borrowed from https://gist.github.com/udacityandroid/d6a7bb21904046a91695
     Used in MainActivityFragment
     * */
-    public static String getMovieJSONString(String inputUrl){
+    public static String getMovieJSONString(String inputUrl, String query){
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String movieJsonStr = null;
 
         try {
             Uri uri= Uri.parse(inputUrl).buildUpon()
+                    .appendQueryParameter(AppConstants.MOVIE_BY_TITLE_KEY, query)
                     .appendQueryParameter(AppConstants.API_KEY, AppConstants.MOVIE_API_KEY)
                     .build();
 
@@ -90,10 +91,10 @@ public class AppUtility {
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
 
             while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {
@@ -153,32 +154,5 @@ public class AppUtility {
     public static boolean isOnline(ConnectivityManager connMgr) {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
-    }
-
-    public static void closeDialog(final ProgressDialog pd) {
-        //Define a thread to cancel Progress Bar after 10sec
-        Runnable progressThread = new Runnable() {
-            @Override
-            public void run() {
-                Log.v(TAG, "In Runnable ...");
-                pd.dismiss();
-            }
-        };
-
-        Handler progressHandler = new Handler();
-        progressHandler.postDelayed(progressThread, AppConstants.PROGRESS_DIALOG_TIME);
-            /*
-            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-
-                }
-            });
-            */
-        //Ends
-    }
-
-    public static void showToast(Context context, String message){
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }
