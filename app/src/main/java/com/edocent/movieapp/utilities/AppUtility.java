@@ -147,7 +147,7 @@ public class AppUtility {
     }
 
     public static void setupBannerIcon(ActionBar actionBar, ImageView view){
-        view.setPadding(400, 0, 0, 0);
+        //view.setPadding(400, 0, 0, 0);
         actionBar.setDisplayShowTitleEnabled(false);
     }
 

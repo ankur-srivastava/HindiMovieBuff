@@ -1,23 +1,20 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/menu_item_search"
+<item android:id="@+id/menu_item_search"
         android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="1"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
 
     <item android:id="@+id/menu_item_clear"
         android:title="Clear"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:orderInCategory="2"
-        app:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom"/>
 
     <item android:id="@+id/favoriteMoviesId"
         android:title="Favorites"
         android:icon="@android:drawable/star_big_on"
         android:orderInCategory="3"
-        app:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom"/>
 </menu>
