@@ -1,6 +1,4 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
     <item android:id="@+id/refreshId" android:title="@string/refresh"
@@ -15,5 +13,5 @@
           android:title="Favorites"
           android:icon="@android:drawable/star_big_on"
           android:orderInCategory="1"
-          app:showAsAction="always"/>
+          android:showAsAction="always"/>
 </menu>
