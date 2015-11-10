@@ -10,11 +10,11 @@
         android:title="Clear"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:orderInCategory="2"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="never"/>
 
     <item android:id="@+id/favoriteMoviesId"
         android:title="Favorites"
         android:icon="@android:drawable/star_big_on"
         android:orderInCategory="3"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="never"/>
 </menu>
