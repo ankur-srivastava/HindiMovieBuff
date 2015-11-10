@@ -74,6 +74,7 @@ public class MainActivity extends Activity {
             onSearchRequested();
             return true;
         }else if(id == R.id.menu_item_clear){
+            startActivity(getIntent());
             return true;
         }
 
